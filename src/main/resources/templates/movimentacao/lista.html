@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Movimentações</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-4">
+<h1>Movimentações</h1>
+<a href="/movimentacoes/novo" class="btn btn-primary mb-3">Nova Movimentação</a>
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Produto</th>
+        <th>Data</th>
+        <th>Ação</th>
+        <th>Quantidade</th>
+        <th>Preço Custo</th>
+        <th>Preço Venda</th>
+        <th>Lucro</th>
+        <th>Usuário</th>
+        <th>Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="m : ${movimentacoes}">
+        <td th:text="${m.id}">1</td>
+        <td th:text="${m.produto.marca}">Marca</td>
+        <td th:text="${#temporals.format(m.dataMovimentacao, 'dd/MM/yyyy HH:mm')}">01/01/2025 10:00</td>
+        <td>
+            <span th:if="${m.acao.name() == 'entrada'}" class="badge bg-success">Entrada</span>
+            <span th:if="${m.acao.name() == 'saida'}" class="badge bg-danger">Saída</span>
+        </td>
+        <td th:text="${m.quantidade}">10</td>
+        <td th:text="'R$ ' + ${#numbers.formatDecimal(m.precoCusto, 1, 2)}">0.00</td>
+        <td th:text="'R$ ' + ${#numbers.formatDecimal(m.precoVenda, 1, 2)}">0.00</td>
+        <td th:text="'R$ ' + ${#numbers.formatDecimal(m.lucro, 1, 2)}">0.00</td>
+        <td th:text="${m.usuario?.nome} ?: '-'">Usuário</td>
+        <td>
+            <a th:href="@{/movimentacoes/editar/{id}(id=${m.id})}" class="btn btn-sm btn-warning">Editar</a>
+            <a th:href="@{/movimentacoes/deletar/{id}(id=${m.id})}" class="btn btn-sm btn-danger"
+               onclick="return confirm('Excluir movimentação?')">Excluir</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

@@ -22,6 +22,10 @@ public class ProdutoService {
         return produtoRepository.findById(id);
     }
 
+    public Optional<Produto> buscarPorMarca(String marca) {
+        return produtoRepository.findByMarca(marca);
+    }
+
     public Produto salvar(Produto produto) {
         return produtoRepository.save(produto);
     }
