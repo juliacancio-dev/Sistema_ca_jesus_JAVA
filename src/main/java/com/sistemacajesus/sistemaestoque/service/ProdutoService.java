@@ -22,8 +22,16 @@ public class ProdutoService {
         return produtoRepository.findById(id);
     }
 
-    public Optional<Produto> buscarPorMarca(String marca) {
+    public Optional<Produto> buscarPorMarcaExata(String marca) {
         return produtoRepository.findByMarca(marca);
+    }
+
+    public List<Produto> pesquisarPorMarca(String marca) {
+        return produtoRepository.findByMarcaContainingIgnoreCase(marca);
+    }
+
+    public List<Produto> pesquisarPorFornecedor(String nomeFornecedor) {
+        return produtoRepository.findByFornecedor_NomeContainingIgnoreCase(nomeFornecedor);
     }
 
     public Produto salvar(Produto produto) {

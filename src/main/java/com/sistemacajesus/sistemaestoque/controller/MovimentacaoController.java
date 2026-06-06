@@ -53,12 +53,10 @@ public class MovimentacaoController {
         try {
             // Busca o produto pela marca
             if (movimentacao.getProduto() != null && movimentacao.getProduto().getMarca() != null) {
-                produtoService.buscarPorMarca(movimentacao.getProduto().getMarca())
+                produtoService.buscarPorMarcaExata(movimentacao.getProduto().getMarca())
                         .ifPresentOrElse(
                                 movimentacao::setProduto,
-                                () -> {
-                                    throw new RuntimeException("Produto não encontrado");
-                                }
+                                () -> { throw new RuntimeException("Produto não encontrado"); }
                         );
             }
 

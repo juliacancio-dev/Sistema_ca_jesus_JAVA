@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/produtos")
 public class ProdutoController {
@@ -19,11 +21,20 @@ public class ProdutoController {
     private FornecedorService fornecedorService;
 
     @GetMapping
-    public String listar(Model model) {
-        model.addAttribute("produtos", produtoService.listarTodos());
+    public String listar(@RequestParam(required = false) String marca,
+                         @RequestParam(required = false) String fornecedor,
+                         Model model) {
+        List<Produto> produtos;
+        if (marca != null && !marca.isBlank()) {
+            produtos = produtoService.pesquisarPorMarca(marca);
+        } else if (fornecedor != null && !fornecedor.isBlank()) {
+            produtos = produtoService.pesquisarPorFornecedor(fornecedor);
+        } else {
+            produtos = produtoService.listarTodos();
+        }
+        model.addAttribute("produtos", produtos);
         return "produto/lista";
     }
-
     @GetMapping("/novo")
     public String novo(Model model) {
         model.addAttribute("produto", new Produto());

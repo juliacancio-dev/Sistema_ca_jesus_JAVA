@@ -17,8 +17,15 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @GetMapping
-    public String Listar(Model model){
-        List<Usuario> usuarios = usuarioService.listarTodos();
+    public String Listar(@RequestParam(required = false) String termo, Model model){
+        List<Usuario> usuarios;
+
+        if(termo != null && !termo.isBlank()){
+            usuarios = usuarioService.buscarPorTermo(termo);
+        } else {
+            usuarios = usuarioService.listarTodos();
+        }
+
         model.addAttribute("usuarios", usuarios);
         return "usuario/lista";
     }

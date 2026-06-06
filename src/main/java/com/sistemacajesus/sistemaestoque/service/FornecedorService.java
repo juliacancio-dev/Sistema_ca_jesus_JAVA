@@ -18,6 +18,10 @@ public class FornecedorService {
         return fornecedorRepository.findAll();
     }
 
+    public List<Fornecedor> buscarPorTermo(String termo) {
+        return fornecedorRepository.findByNomeContainingIgnoreCaseOrEmailContainingIgnoreCaseOrCnpjContainingIgnoreCase(termo, termo, termo);
+    }
+
     public Optional<Fornecedor> buscarPorId(Integer id) {
         return fornecedorRepository.findById(id);
     }

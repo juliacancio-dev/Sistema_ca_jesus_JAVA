@@ -18,6 +18,10 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
+    public List<Usuario> buscarPorTermo(String termo) {
+        return usuarioRepository.findByNomeContainingIgnoreCaseOrEmailContainingIgnoreCaseOrCpfContainingIgnoreCase(termo, termo, termo);
+    }
+
     public Optional<Usuario> buscarPorId(Integer id){
         return usuarioRepository.findById(id);
     }

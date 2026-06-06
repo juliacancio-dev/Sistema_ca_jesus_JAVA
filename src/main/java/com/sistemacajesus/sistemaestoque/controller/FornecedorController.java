@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/fornecedores")
 public class FornecedorController {
@@ -15,8 +17,16 @@ public class FornecedorController {
     private FornecedorService fornecedorService;
 
     @GetMapping
-    public String listar(Model model) {
-        model.addAttribute("fornecedores", fornecedorService.listarTodos());
+    public String listar(@RequestParam(required = false) String termo, Model model) {
+        List<Fornecedor> fornecedores;
+
+        if (termo != null && !termo.isBlank()) {
+            fornecedores = fornecedorService.buscarPorTermo(termo);
+        } else {
+            fornecedores = fornecedorService.listarTodos();
+        }
+
+        model.addAttribute("fornecedores", fornecedores);
         return "fornecedor/lista";
     }
 

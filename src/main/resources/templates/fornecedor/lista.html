@@ -6,37 +6,51 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="container mt-4">
-<h1>Fornecedores</h1>
-<a href="/fornecedores/novo" class="btn btn-primary mb-3">Novo Fornecedor</a>
-<table class="table table-bordered table-striped">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Nome</th>
-        <th>CNPJ</th>
-        <th>Telefone</th>
-        <th>Email</th>
-        <th>Ativo</th>
-        <th>Ações</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="f : ${fornecedores}">
-        <td th:text="${f.id}">1</td>
-        <td th:text="${f.nome}">Nome</td>
-        <td th:text="${f.cnpj}">00.000.000/0000-00</td>
-        <td th:text="${f.telefone}">(00) 00000-0000</td>
-        <td th:text="${f.email}">email@ex.com</td>
-        <td>
-            <span th:if="${f.ativo}" class="badge bg-success">Ativo</span>
-            <span th:unless="${f.ativo}" class="badge bg-danger">Inativo</span>
-        </td>
-        <td>
-            <a th:href="@{/fornecedores/editar/{id}(id=${f.id})}" class="btn btn-sm btn-warning">Editar</a>
-            <a th:href="@{/fornecedores/deletar/{id}(id=${f.id})}" class="btn btn-sm btn-danger" onclick="return confirm('Excluir fornecedor?')">Excluir</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
+    <h1>Fornecedores</h1>
+
+    <form th:action="@{/fornecedores}" method="get" class="row g-3 mb-3">
+        <div class="col-auto">
+            <input type="text" name="termo" class="form-control"
+                   placeholder="Nome, email ou CNPJ" th:value="${param.termo}">
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-success">Buscar</button>
+            <a href="/fornecedores" class="btn btn-secondary">Limpar</a>
+        </div>
+    </form>
+
+    <a href="/fornecedores/novo" class="btn btn-primary mb-3">Novo Fornecedor</a>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>CNPJ</th>
+                <th>Telefone</th>
+                <th>Email</th>
+                <th>Ativo</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr th:each="f : ${fornecedores}">
+                <td th:text="${f.id}">1</td>
+                <td th:text="${f.nome}">Nome</td>
+                <td th:text="${f.cnpj}">00.000.000/0000-00</td>
+                <td th:text="${f.telefone}">(00) 00000-0000</td>
+                <td th:text="${f.email}">email@ex.com</td>
+                <td>
+                    <span th:if="${f.ativo}" class="badge bg-success">Ativo</span>
+                    <span th:unless="${f.ativo}" class="badge bg-danger">Inativo</span>
+                </td>
+                <td>
+                    <a th:href="@{/fornecedores/editar/{id}(id=${f.id})}" class="btn btn-sm btn-warning">Editar</a>
+                    <a th:href="@{/fornecedores/deletar/{id}(id=${f.id})}" class="btn btn-sm btn-danger" onclick="return confirm('Excluir fornecedor?')">Excluir</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>
